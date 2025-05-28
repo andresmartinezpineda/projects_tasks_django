@@ -29,22 +29,28 @@ def tareas(request):
     })
 
 def create_task(request):
-    if request.method == 'GET':
-        return render(request,"tasks/create_task.html",{
-            'form': CreateNewTask()
-    })
+    if request.method == 'POST':
+        form = CreateNewTask(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('task')
     else:
-        task.objects.create(title = request.POST['title'],description = request.POST['description'],project_id = 1)
-        return redirect('task')
+        form = CreateNewTask()
+        return render(request,'tasks/create_task.html',{
+            'form' : form
+        })
     
 def create_project(request):
-    if request.method == 'GET':
-        return render(request,'projects/create_project.html',{
-        'form': CreateNewProject()
-    })
+    if request.method == 'POST':
+        form = CreateNewProject(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('project')
     else:
-        Project.objects.create(name = request.POST['name'])
-        return redirect("projects")
+        form = CreateNewProject()
+        return render(request,'projects/create_project.html',{
+            'form' : form
+        })
     
 def project_detail(request,id):
     project = get_object_or_404(Project,id=id)
