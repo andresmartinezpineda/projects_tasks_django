@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# creamos una tabla en el 
 class Project(models.Model):
     name = models.CharField(max_length=200)
 
